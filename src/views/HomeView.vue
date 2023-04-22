@@ -32,6 +32,7 @@ import Web3 from "https://cdn.skypack.dev/web3@1.9.0"
 
 import { useParamsStore } from '@/stores/params'
 import { useAssetsStore } from '@/stores/assets'
+import { useSquadStore } from '@/stores/squad'
 
 const provider = new Web3.providers.WebsocketProvider('wss://mainnet.chainnodes.org/e71a47d0-9baa-4540-a7b2-77f244e2a4ba');
 const web3 = new Web3(Web3.givenProvider || provider)
@@ -39,6 +40,7 @@ const web3 = new Web3(Web3.givenProvider || provider)
 const router = useRouter()
 const params = useParamsStore()
 const assets = useAssetsStore()
+const squad = useSquadStore()
 
 const walletsCount = ref(1)
 const walletAddresses = ref([])
@@ -55,6 +57,7 @@ const onSubmit = () => {
     }
 
     requests.value += 1
+    resetData()
 
     walletAddresses.value.forEach(address => {
         if (address.length <= 0) {
@@ -107,6 +110,11 @@ const fetch = (walletAddress, cursor) => {
         headers: { accept: 'application/json' }
     }
     return axios.request(options)
+}
+
+const resetData = () => {
+    assets.reset()
+    squad.reset()
 }
 
 watch(data, async () => {

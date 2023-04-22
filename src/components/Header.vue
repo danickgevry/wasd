@@ -10,19 +10,6 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router'
-
-import { useAssetsStore } from '@/stores/assets'
-import { useSquadStore } from '@/stores/squad'
-
-const router = useRouter()
-const assets = useAssetsStore()
-const squad = useSquadStore()
-
-const resetData = () => {
-    assets.reset()
-    squad.reset()
-}
 </script>
   
 <style scoped>
