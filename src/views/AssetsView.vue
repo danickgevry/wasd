@@ -1,30 +1,30 @@
 <template>
-    <main>
-        <!-- START Stats -->
-        <section class="container-fluid px-3 px-md-5 my-4 my-md-5">
-            <div class="row">
-                <div class="col-12 col-lg-6 col-xl-4 p-2">
-                    <SquadStats />
-                </div>
-
-                <div class="col-12 col-lg-6 col-xl-8 p-2">
-                    <UpgradeTable />
-                </div>
-            </div>
+    <main class="mt-5 pt-4">
+        <section class="container-fluid px-3 px-md-5 my-2">
+            <RouterLink to="/" class="btn btn-outline-secondary text-white">
+                <i class="bi bi-chevron-left"></i>
+                Load new wallet(s)
+            </RouterLink>
         </section>
-        <!-- END Header -->
-
-        <!-- START Squad -->
-        <section class="container-fluid px-3 px-md-5 my-4 my-md-5">
-            <h2>Selected squad <span class="badge bg-secondary small ms-2">{{ squad.selectedAssets.length }}/7</span></h2>
-            <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6 row-cols-xxl-7">
+            
+        <!-- Squad -->
+        <section class="my-4">
+            <div class="container-fluid px-3 px-md-5">
+                <h2>Selected squad <span class="badge bg-secondary small ms-2">{{ squad.selectedAssets.length }}/7</span></h2>
+            </div>
+            <div class="overflow-x-auto">
                 <SquadList />
             </div>
+            <div class="container-fluid px-3 px-md-5 mt-2 mt-md-3">
+                <div class="d-grid d-sm-block">
+                    <RouterLink to="/stats" class="btn btn-primary btn-lg" v-if="squad.selectedAssets.length">View squad stats</RouterLink>
+                    <button type="button" class="btn btn-primary btn-lg" disabled v-else>View squad stats</button>
+                </div>
+            </div>
         </section>
-        <!-- END Squad -->
         
-        <!-- START Assets -->
-        <section class="container-fluid px-3 px-md-5 my-4 my-md-5">
+        <!-- Assets -->
+        <section class="container-fluid px-3 px-md-5 my-4">
             <h2>All assets <span class="badge bg-secondary small ms-2">{{ assets.all.length }}</span></h2>
             <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6 row-cols-xxl-7">
                 <AssetCard
@@ -35,34 +35,22 @@
                     @unselect="onCardUnselect" />
             </div>
         </section>
-        <!-- END Assets -->
     </main>
 </template>
 
 <script setup>
-import { ref, watch, computed, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
-import { useParamsStore } from '@/stores/params'
 import { useAssetsStore } from '@/stores/assets'
 import { useSquadStore } from '@/stores/squad'
 
 import AssetCard from '@/components/AssetCard.vue'
 import SquadList from '@/components/SquadList.vue'
-import SquadStats from '@/components/SquadStats.vue'
-import UpgradeTable from '@/components/UpgradeTable.vue'
 
 const router = useRouter()
-const params = useParamsStore()
 const assets = useAssetsStore()
 const squad = useSquadStore()
-const wasxType = ref('iron')
-
-// const resetData = () => {
-//     data.value = []
-//     assets.reset()
-//     squad.reset()
-// }
 
 const onCardSelect = (asset) => {
     squad.add(asset)
@@ -76,8 +64,6 @@ onMounted(() => {
     if (assets.all.length <= 0) {
         router.push('/')
     }
-    // walletAddresses.value = ['danick.eth']
-    // onSubmit()
 })
 </script>
 

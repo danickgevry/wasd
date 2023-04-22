@@ -5,7 +5,7 @@
                 <source src="https://static.wasdnft.com/media/Header.6e824f6e.mp4" type="video/mp4">
             </video>
             <div class="position-relative mw-100">
-                <h1 class="display-5 fw-bold text-white m-0">WASX Bonus Calculator</h1>
+                <h1 class="display-6 fw-bold text-white m-0">Enter wallet address</h1>
                 <form class="d-flex flex-column justify-content-center mt-4 w-100" novalidate @submit.prevent="onSubmit">
                     <div class="input-group mb-3" style="width: 600px; max-width: 100%;" v-for="n in walletsCount">
                         <input type="text" class="form-control form-control-lg" :id="`wallet-address-${n}`" placeholder="ETH address or ENS" v-model="walletAddresses[n]">
@@ -150,7 +150,7 @@ watch(loading, async (newState, oldState) => {
     // if was loading (oldState == true) and is not loading anymore (newState == false)
     if (oldState && !newState) {
         // redirect to team page
-        router.push('/team')
+        router.push('/assets')
     }
 })
 </script>
