@@ -5,7 +5,7 @@
                 <source src="https://static.wasdnft.com/media/Header.6e824f6e.mp4" type="video/mp4">
             </video>
             <div class="position-relative mw-100">
-                <h1 class="display-5 fw-bold text-white m-0">WASX Bonus Calculator</h1>
+                <h1 class="display-6 fw-bold text-white m-0">Enter wallet address</h1>
                 <form class="d-flex flex-column justify-content-center mt-4 w-100" novalidate @submit.prevent="onSubmit">
                     <div class="input-group mb-3" style="width: 600px; max-width: 100%;" v-for="n in walletsCount">
                         <input type="text" class="form-control form-control-lg" :id="`wallet-address-${n}`" placeholder="ETH address or ENS" v-model="walletAddresses[n]">
@@ -32,6 +32,7 @@ import Web3 from "https://cdn.skypack.dev/web3@1.9.0"
 
 import { useParamsStore } from '@/stores/params'
 import { useAssetsStore } from '@/stores/assets'
+import { useSquadStore } from '@/stores/squad'
 
 const provider = new Web3.providers.WebsocketProvider('wss://mainnet.chainnodes.org/e71a47d0-9baa-4540-a7b2-77f244e2a4ba');
 const web3 = new Web3(Web3.givenProvider || provider)
@@ -39,6 +40,7 @@ const web3 = new Web3(Web3.givenProvider || provider)
 const router = useRouter()
 const params = useParamsStore()
 const assets = useAssetsStore()
+const squad = useSquadStore()
 
 const walletsCount = ref(1)
 const walletAddresses = ref([])
@@ -55,6 +57,7 @@ const onSubmit = () => {
     }
 
     requests.value += 1
+    resetData()
 
     walletAddresses.value.forEach(address => {
         if (address.length <= 0) {
@@ -109,6 +112,11 @@ const fetch = (walletAddress, cursor) => {
     return axios.request(options)
 }
 
+const resetData = () => {
+    assets.reset()
+    squad.reset()
+}
+
 watch(data, async () => {
     data.value.forEach(item => {
         let assetData = {
@@ -150,7 +158,7 @@ watch(loading, async (newState, oldState) => {
     // if was loading (oldState == true) and is not loading anymore (newState == false)
     if (oldState && !newState) {
         // redirect to team page
-        router.push('/team')
+        router.push('/assets')
     }
 })
 </script>
