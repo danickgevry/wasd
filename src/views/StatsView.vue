@@ -1,5 +1,5 @@
 <template>
-    <main class="mt-5 pt-4">
+    <main class="my-5 py-5">
         <section class="container-fluid px-3 px-md-5 my-2">
             <RouterLink to="/" class="btn btn-outline-secondary text-white">
                 <i class="bi bi-chevron-left"></i>
